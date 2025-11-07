@@ -1,0 +1,11 @@
+{
+  "translation": "NIV",
+  "font_size_reference": 14,
+  "font_size_text": 12,
+  "display_rotation": 0,
+  "comment": "Available settings:",
+  "comment_translation": "translation: Change this to switch Bible translations (e.g., 'NIV', 'KJV', 'ESV'). Make sure the corresponding .json file exists in bible_data/",
+  "comment_font_sizes": "font_size_reference: Size for the verse reference (book, chapter:verse)",
+  "comment_font_text": "font_size_text: Size for the verse text",
+  "comment_rotation": "display_rotation: Rotate display in degrees (0, 90, 180, 270)"
+}
