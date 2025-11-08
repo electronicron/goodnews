@@ -41,7 +41,7 @@ This project turns your Raspberry Pi Zero 2 with a Waveshare 2.13" e-paper displ
 
 ```bash
 cd ~
-git clone https://github.com/yourusername/bible-epaper-display.git
+git clone https://github.com/electronicron/bible-epaper-display.git
 cd bible-epaper-display
 ```
 
