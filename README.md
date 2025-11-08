@@ -1,4 +1,4 @@
-# Daily Bible Verse E-Paper Display
+# Automated Bible Verse E-Paper Display
 
 Display a different Bible verse every hour on your Raspberry Pi with Waveshare e-paper display!
 
