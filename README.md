@@ -1,176 +1,248 @@
-# Daily Bible Verse Display
+# Daily Bible Verse E-Paper Display
 
-Display a different Bible verse each day on your Raspberry Pi with e-paper display!
+Display a different Bible verse every hour on your Raspberry Pi with Waveshare e-paper display!
 
-## 📖 What This Does
+![Project Type](https://img.shields.io/badge/project-Raspberry%20Pi-red)
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-- Shows a random Bible verse on your e-paper display
-- Changes automatically every day at 6 AM (configurable)
-- Works offline after setup
-- Easy to switch between Bible translations
-- Low power consumption (e-paper only uses power during updates)
+## 📖 Overview
+
+This project turns your Raspberry Pi Zero 2 with a Waveshare 2.13" e-paper display into an automated Bible verse display that shows a new verse every hour. Perfect for homes, offices, or as a thoughtful gift!
+
+### Features
+
+- ✅ **Hourly updates** - New verse every hour (configurable)
+- ✅ **Multiple translations** - KJV, WEB, ASV, YLT (all public domain)
+- ✅ **Low power** - E-paper only uses power during updates
+- ✅ **Offline** - Works without internet after setup
+- ✅ **Easy setup** - Automated installation scripts
+- ✅ **Beginner friendly** - Detailed documentation with hand-holding
+
+## 🖼️ What It Does
+
+- Displays a random Bible verse on an e-paper screen
+- Updates automatically every hour (or daily, or any schedule you choose)
+- Shows the verse reference, text, and date
+- Changes verse at the top of each hour
+- Same verse displays consistently throughout the hour
 
 ## 🛠️ Hardware Requirements
 
-- Raspberry Pi Zero 2 W (or any Raspberry Pi)
-- Waveshare 2.13" e-Paper Display V4
-- MicroSD card (8GB+)
-- Power supply
-
-## 📦 What's Included
-
-- `bible_display.py` - Main display script
-- `config.json` - Easy configuration file
-- `setup.sh` - Automated setup script
-- `download_bible.py` - Helper to create sample Bible data
-- `INSTALLATION.md` - Detailed step-by-step guide
-- `requirements.txt` - Python dependencies
+- **Raspberry Pi Zero 2 W** (or any Raspberry Pi model)
+- **Waveshare 2.13" e-Paper Display V4**
+- MicroSD card (8GB or larger)
+- Power supply for Raspberry Pi
+- Internet connection for initial setup
 
 ## 🚀 Quick Start
 
-### 1. Transfer files to your Raspberry Pi
+### 1. Clone Repository
+
 ```bash
-# From your computer
-scp *.py *.sh *.json *.txt *.md pi@raspberrypi.local:~/
+cd ~
+git clone https://github.com/yourusername/bible-epaper-display.git
+cd bible-epaper-display
 ```
 
-### 2. Connect to your Pi and run setup
+### 2. Run Setup
+
 ```bash
-ssh pi@raspberrypi.local
 chmod +x setup.sh
 ./setup.sh
 ```
 
-### 3. Create sample Bible data
+### 3. Download Bible Data
+
+Choose one:
+
 ```bash
-python3 download_bible.py
+# Download all 4 translations (recommended)
+python3 download_all_bibles.py
+
+# Or download individually
+python3 download_kjv_improved.py  # King James Version
+python3 download_web_improved.py  # World English Bible (modern)
+python3 download_asv.py           # American Standard Version
+python3 download_ylt.py           # Young's Literal Translation
 ```
 
-### 4. Test the display
+### 4. Test Display
+
 ```bash
 python3 bible_display.py
 ```
 
-### 5. Set up automatic daily updates
+### 5. Set Up Automatic Updates
+
+**Using Cron (Easiest):**
 ```bash
 crontab -e
-# Add: 0 6 * * * /usr/bin/python3 /home/pi/bible_display.py
+# Add: 0 * * * * /usr/bin/python3 /home/pi/bible-epaper-display/bible_display.py
 ```
 
-**For detailed instructions, see [INSTALLATION.md](INSTALLATION.md)**
+**Using Systemd (Recommended):**
+See [HOURLY_SETUP.md](HOURLY_SETUP.md) for detailed instructions.
 
-## ⚙️ Configuration
+## 📚 Available Bible Translations
+
+All translations are public domain and free to use:
+
+| Translation | Year | Style | Best For |
+|-------------|------|-------|----------|
+| **WEB** | 2020 | Modern English | Daily reading ⭐ |
+| **KJV** | 1611 | Traditional | Classic style |
+| **ASV** | 1901 | Scholarly | Bible study |
+| **YLT** | 1898 | Most literal | Word-for-word study |
+
+Switch translations by editing `config.json`:
+
+```json
+{
+  "translation": "WEB",
+  "font_size_reference": 14,
+  "font_size_text": 12,
+  "display_rotation": 0
+}
+```
+
+## 📁 Project Structure
+
+```
+bible-epaper-display/
+├── bible_display.py              # Main display script
+├── config.json                   # Configuration file
+├── requirements.txt              # Python dependencies
+├── setup.sh                      # Automated setup script
+├── download_all_bibles.py        # Download all translations
+├── download_kjv_improved.py      # Download KJV
+├── download_web_improved.py      # Download WEB
+├── download_asv.py               # Download ASV
+├── download_ylt.py               # Download YLT
+├── README.md                     # This file
+├── INSTALLATION.md               # Detailed installation guide
+├── HOURLY_SETUP.md              # Hourly update setup
+├── TRANSLATIONS_GUIDE.md         # Translation comparison
+├── QUICK_REFERENCE.md           # Command cheat sheet
+└── docs/                        # Additional documentation
+```
+
+## 📖 Documentation
+
+- **[INSTALLATION.md](INSTALLATION.md)** - Complete setup guide (start here!)
+- **[HOURLY_SETUP.md](HOURLY_SETUP.md)** - Configure hourly updates
+- **[TRANSLATIONS_GUIDE.md](TRANSLATIONS_GUIDE.md)** - Bible translation details
+- **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Common commands
+- **[QUICK_START_DOWNLOADS.md](QUICK_START_DOWNLOADS.md)** - Bible download guide
+
+## 🔧 Configuration Options
 
 Edit `config.json` to customize:
 
 ```json
 {
-  "translation": "NIV",           // Bible translation (NIV, KJV, ESV, etc.)
-  "font_size_reference": 14,      // Size of verse reference
-  "font_size_text": 12,           // Size of verse text
-  "display_rotation": 0           // Rotate display (0, 90, 180, 270)
+  "translation": "WEB",           // Bible translation (KJV, WEB, ASV, YLT)
+  "font_size_reference": 14,      // Verse reference size
+  "font_size_text": 12,           // Verse text size
+  "display_rotation": 0           // Rotation (0, 90, 180, 270)
 }
 ```
 
-## 🔄 Switching Bible Translations
+## 🕐 Update Schedules
 
-1. Make sure you have the translation JSON file in `bible_data/`
-2. Edit `config.json` and change `"translation": "NIV"` to your desired translation
-3. Run `python3 bible_display.py` to update
-
-## 📁 Project Structure
-
+### Hourly Updates (Default)
+```bash
+crontab -e
+# Add: 0 * * * * /usr/bin/python3 /path/to/bible_display.py
 ```
-├── bible_display.py        # Main application
-├── config.json            # Configuration settings
-├── setup.sh              # Setup automation script
-├── download_bible.py     # Bible data helper
-├── requirements.txt      # Python packages
-├── INSTALLATION.md       # Detailed guide
-├── README.md            # This file
-└── bible_data/          # Bible translation files
-    ├── niv.json
-    ├── kjv.json
-    └── esv.json
+
+### Daily Updates
+```bash
+crontab -e
+# Add: 0 6 * * * /usr/bin/python3 /path/to/bible_display.py
 ```
+
+### Every 30 Minutes
+```bash
+crontab -e
+# Add: 0,30 * * * * /usr/bin/python3 /path/to/bible_display.py
+```
+
+See [HOURLY_SETUP.md](HOURLY_SETUP.md) for more scheduling options.
 
 ## 🐛 Troubleshooting
 
-### Display not updating?
-- Check connections to GPIO pins
+### Display Not Working
+- Check GPIO connections
 - Verify SPI is enabled: `lsmod | grep spi`
+- Run: `sudo raspi-config` → Interface Options → SPI → Enable
+
+### Script Errors
 - Check logs: `cat bible_display.log`
+- Test manually: `python3 bible_display.py`
+- Verify paths in systemd service files
 
-### No Bible verses showing?
-- Ensure JSON file exists: `ls bible_data/`
-- Check filename matches config.json
-- Verify JSON format is correct
+### No Bible Data
+- Download Bible files: `python3 download_all_bibles.py`
+- Check: `ls bible_data/`
+- Verify `config.json` has correct translation name
 
-### Script not running automatically?
-- Verify cron job: `crontab -l`
-- Check system logs: `grep CRON /var/log/syslog`
-- Test manually first
-
-**For more help, see [INSTALLATION.md](INSTALLATION.md)**
-
-## 📊 Features
-
-- ✅ Random verse selection (different each day)
-- ✅ Multiple Bible translation support
-- ✅ Automatic daily updates
-- ✅ Low power consumption
-- ✅ Offline operation
-- ✅ Easy configuration
-- ✅ Detailed logging
-- ✅ Debug image output
-
-## 🔮 Future Ideas
-
-- Add multiple verses per day
-- Include daily devotional
-- Weather information
-- Calendar events
-- Manual refresh button
-- Web interface for configuration
-
-## 📝 Notes
-
-- The same verse is shown all day (based on date seed)
-- Verse changes automatically at midnight
-- Display only updates when script runs
-- E-paper retains image without power
-
-## 🙏 Getting Complete Bible Data
-
-The included sample data has popular verses for testing. For complete Bibles:
-
-1. Visit https://getbible.net/
-2. Download your preferred translation in JSON format
-3. Place in `bible_data/` directory
-4. Rename to match translation code (e.g., `niv.json`)
-
-See INSTALLATION.md for more sources and detailed instructions.
+See [INSTALLATION.md](INSTALLATION.md) for detailed troubleshooting.
 
 ## 💡 Tips
 
-- Start with sample data to verify everything works
-- Keep the display out of direct sunlight
-- Clean display gently with dry cloth
-- Save power by updating only once daily
-- Backup your configuration files
+- **Start with WEB** - Modern English, easiest to read
+- **Test manually first** - Before setting up automation
+- **Check logs** - `bible_display.log` shows what happened
+- **Use systemd** - More reliable than cron for services
+- **Backup config** - Save your working configuration
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest features
+- Submit pull requests
+- Share your setup photos!
 
 ## 📄 License
 
-Free to use for personal projects. Bible text copyright belongs to respective translation publishers.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Support
+### Bible Translations
+All included Bible translations (KJV, WEB, ASV, YLT) are in the public domain.
 
-If you encounter issues:
-1. Check the log file: `cat bible_display.log`
-2. Review INSTALLATION.md troubleshooting section
-3. Verify all connections and settings
-4. Test components individually
+### Third-Party Libraries
+- **Waveshare e-Paper library** - See their repository for license
+- **Pillow** - PIL Software License
+- **Python** - PSF License
+
+## 🙏 Acknowledgments
+
+- **Waveshare** - For e-paper display hardware and libraries
+- **GetBible.net** - For providing public domain Bible translations
+- **Bible translation teams** - For their faithful work
+
+## 📞 Support
+
+- **Issues**: Open an issue on GitHub
+- **Discussions**: Use GitHub Discussions
+- **Documentation**: Check the docs/ folder
+
+## 🌟 Show Your Support
+
+If this project helped you, please:
+- ⭐ Star this repository
+- 📸 Share photos of your setup
+- 🐛 Report bugs or suggest features
+- 📖 Improve documentation
+
+## 📸 Gallery
+
+Share your setup! Open an issue or PR to add your photo here.
 
 ---
 
-Enjoy your daily Bible verse display! 🙏📖
+**Made with ❤️ for daily Bible reading**
+
+Enjoy your automated Bible verse display! 🙏📖

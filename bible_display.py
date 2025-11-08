@@ -84,12 +84,13 @@ def load_bible_data(translation):
 
 def get_daily_verse(bible_data):
     """
-    Get a verse for today. Uses the date as a seed for consistency.
-    The same verse will be shown all day, but change at midnight.
+    Get a verse for this hour. Uses date + hour as seed for consistency.
+    The same verse will be shown for the entire hour, then change every hour.
     """
-    # Use today's date as seed for reproducible randomness
-    today = datetime.now().date()
-    seed = int(today.strftime("%Y%m%d"))
+    # Use current date + hour as seed for reproducible randomness
+    now = datetime.now()
+    # Format: YYYYMMDDHH (e.g., 2025110714 for Nov 7, 2025 at 2 PM)
+    seed = int(now.strftime("%Y%m%d%H"))
     random.seed(seed)
     
     # Select a random book
@@ -246,7 +247,7 @@ def display_on_epaper(image, config):
 def main():
     """Main function"""
     logging.info("=" * 50)
-    logging.info("Starting Daily Bible Verse Display")
+    logging.info("Starting Hourly Bible Verse Display")
     logging.info("=" * 50)
     
     # Load configuration
@@ -261,7 +262,7 @@ def main():
         logging.error("Could not load Bible data. Exiting.")
         sys.exit(1)
     
-    # Get today's verse
+    # Get this hour's verse
     verse_data = get_daily_verse(bible_data)
     
     if verse_data is None:
